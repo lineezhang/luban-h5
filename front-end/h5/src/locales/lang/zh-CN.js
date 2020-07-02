@@ -1,3 +1,13 @@
+/*
+ * @Author: ly525
+ * @Date: 2019-11-24 18:51:58
+ * @LastEditors: ly525
+ * @LastEditTime: 2020-04-18 00:30:40
+ * @FilePath: /luban-h5/front-end/h5/src/locales/lang/zh-CN.js
+ * @Github: https://github.com/ly525/luban-h5
+ * @Description: Do not edit
+ * @Copyright 2018 - 2019 luban-h5. All Rights Reserved
+ */
 export default {
   app: {
     title: '鲁班 H5'
@@ -19,13 +29,14 @@ export default {
   workCard: {
     description: '描述',
     createTime: '时间',
-    useNow: '立即使用',
+    useNow: '立即查看',
     preview: '预览',
     createNewWork: '创建新作品',
-    edit: '编辑'
+    edit: '编辑',
+    view: '查看作品'
   },
   basicData: {
-    viewData: 'View Data'
+    viewData: '查看数据'
   },
   editor: {
     sidebar: {
@@ -62,13 +73,14 @@ export default {
       }
     },
     fixedTool: {
-      undo: '撤销',
-      redo: '重做',
+      undo: '撤销{hotkey}',
+      redo: '重做{hotkey}',
       preview: '预览',
       copyCurrentPage: '复制当前页面',
       importPSD: '导入PSD',
-      zoomIn: '缩小',
-      zoomOut: '放大'
+      zoomIn: '缩小{hotkey}',
+      zoomOut: '放大{hotkey}',
+      issues: '常见问题'
     },
     editPanel: {
       tab: {
@@ -92,6 +104,10 @@ export default {
       common: {
         empty: 'Select an element first please!'
       }
+    },
+    tip: {
+      componentUsage: '使用提示: {0} 组件即可',
+      click: '点击'
     }
   }
 }

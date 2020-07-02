@@ -1,38 +1,6 @@
 import { mapState, mapActions } from 'vuex'
 import Shape from '../../support/shape'
-
-const contextmenuOptions = [
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.copy',
-    label: '复制',
-    value: 'copy'
-  },
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.delete',
-    label: '删除',
-    value: 'delete'
-  },
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.moveToTop',
-    label: '置顶',
-    value: 'move2Top'
-  },
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.moveToBottom',
-    label: '置底',
-    value: 'move2Bottom'
-  },
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.moveUp',
-    label: '上移',
-    value: 'addZindex'
-  },
-  {
-    i18nLabel: 'editor.centerPanel.contextMenu.moveDown',
-    label: '下移',
-    value: 'minusZindex'
-  }
-]
+import ContextMenu from '../../support/contexmenu'
 
 export default {
   props: ['elements', 'handleClickElementProp', 'handleClickCanvasProp'],
@@ -42,7 +10,7 @@ export default {
     contextmenuPos: []
   }),
   computed: {
-    ...mapState('editor', ['editingElement'])
+    ...mapState('editor', ['editingElement', 'work'])
   },
   methods: {
     ...mapActions('editor', [
@@ -50,90 +18,121 @@ export default {
       'setElementPosition',
       'setElementShape',
       'recordElementRect',
-      'elementManager'
+      'elementManager',
+      'updateWork'
     ]),
     // TODO #!zh: 优化代码
     // generate vertical line
     drawVLine (newLeft) {
-      // this.editingElement.commonStyle.left = newLeft
-      this.setElementPosition({ left: newLeft })
       this.vLines = [{ left: newLeft }]
+    },
+    clearVLine () {
+      this.vLines = []
     },
     // generate horizontal line
     drawHLine (newTop) {
-      // this.editingElement.commonStyle.top = newTop
-      this.setElementPosition({ top: newTop })
       this.hLines = [{ top: newTop }]
     },
-    calcX (newLeft) {
+    clearHLine () {
+      this.hLines = []
+    },
+    calcVHLine (isPointMove) {
       const uuid = this.editingElement.uuid
-      let xCoords = []
-      this.elements.filter(e => e.uuid !== uuid).forEach(e => {
+      const referElements = this.elements.filter(e => e.uuid !== uuid)
+      let referElementsXCoords = []
+      let referElementsYCoords = []
+      referElements.forEach(e => {
         const width = e.commonStyle.width
         const left = e.commonStyle.left
-        xCoords = [
-          ...xCoords,
+        const height = e.commonStyle.height
+        const top = e.commonStyle.top
+
+        referElementsXCoords = [
+          ...referElementsXCoords,
           left,
           left + (width / 2),
           left + width
         ]
-      })
-
-      xCoords.some(x => {
-        if (Math.abs(newLeft - x) <= 5) {
-          this.drawVLine(x)
-          return true
-        } else {
-          this.vLines = []
-        }
-      })
-    },
-    calcY (newTop) {
-      const uuid = this.editingElement.uuid
-      let yCoords = []
-      this.elements.filter(e => e.uuid !== uuid).forEach(e => {
-        const height = e.commonStyle.height
-        const top = e.commonStyle.top
-        yCoords = [
-          ...yCoords,
+        referElementsYCoords = [
+          ...referElementsYCoords,
           top,
           top + (height / 2),
           top + height
         ]
       })
 
-      yCoords.some(y => {
-        if (Math.abs(newTop - y) <= 5) {
-          this.drawHLine(y)
-          return true
-        } else {
-          this.hLines = []
-        }
+      // e代表 editingElement
+      const eleft = this.editingElement.commonStyle.left
+      const etop = this.editingElement.commonStyle.top
+      const ewidth = this.editingElement.commonStyle.width
+      const eheight = this.editingElement.commonStyle.height
+      const exCoords = [eleft + ewidth, eleft + (ewidth / 2), eleft]
+      const eyCoords = [etop + eheight, etop + (eheight / 2), etop]
+      let hasVLine = false
+      let hasHLine = false
+      exCoords.forEach(eX => {
+        referElementsXCoords.forEach(referX => {
+          let offset = referX - eX
+          if (Math.abs(offset) <= 5) {
+            if (isPointMove) {
+              this.setElementPosition({ width: ewidth + offset })
+            } else {
+              this.setElementPosition({ left: eleft + offset })
+            }
+            this.drawVLine(referX)
+            hasVLine = true
+          }
+        })
       })
+      eyCoords.forEach(eY => {
+        referElementsYCoords.forEach(referY => {
+          let offset = referY - eY
+          if (Math.abs(offset) <= 5) {
+            if (isPointMove) {
+              this.setElementPosition({ height: eheight + offset })
+            } else {
+              this.setElementPosition({ top: etop + offset })
+            }
+            this.drawHLine(referY)
+            hasHLine = true
+          }
+        })
+      })
+      if (!hasVLine) {
+        this.clearVLine()
+      }
+      if (!hasHLine) {
+        this.clearHLine()
+      }
     },
     /**
      * #!zh: 在元素移动过程中，计算和生成辅助线
      */
     handleElementMove (pos) {
       this.setElementPosition(pos)
-      this.calcX(pos.left)
-      this.calcY(pos.top)
+      this.calcVHLine(false)
     },
-    handlePointMove ({ top, left }) {
-      this.calcX(left)
-      this.calcY(top)
+    handlePointMove (pos) {
+      this.setElementPosition(pos)
+      this.calcVHLine(true)
     },
     bindContextMenu (e) {
-      e.preventDefault() // 不显示默认的右击菜单
-      if (
-        e.target.classList.contains('element-on-edit-canvas') ||
-        e.target.parentElement.classList.contains('element-on-edit-canvas')
-      ) {
-        const { x, y } = this.$el.getBoundingClientRect()
-        this.contextmenuPos = [e.clientX - x, e.clientY - y]
-      } else {
-        this.hideContextMenu()
-      }
+      // 优化右击菜单的显示，去除冗余的无效逻辑
+      const { x, y } = this.$el.getBoundingClientRect()
+      this.contextmenuPos = [e.clientX - x, e.clientY - y]
+      // console.log(e.target)
+      // console.log(e.target.classList)
+      // // e.preventDefault() // 不显示默认的右击菜单
+      // if (
+      //   e.target.classList.contains('element-on-edit-canvas') ||
+      //   e.target.parentElement.classList.contains('element-on-edit-canvas')
+      // ) {
+      //   const { x, y } = this.$el.getBoundingClientRect()
+      //   console.log(x, y)
+      //   this.contextmenuPos = [e.clientX - x, e.clientY - y]
+      // } else {
+      //   this.hideContextMenu()
+      // }
     },
     hideContextMenu () {
       this.contextmenuPos = []
@@ -142,6 +141,43 @@ export default {
       if (!e.target.classList.contains('element-on-edit-canvas')) {
         this.setEditingElement()
       }
+    },
+    /**
+     * 更新作品高度
+     * @param {Number} height
+     */
+    updateWorkHeight (height) {
+      this.updateWork({ height })
+    },
+    /**
+     * TODO 封装 adjust editor scale 组件
+     * scale: height/width
+     * @param {MouseEvent} e
+     */
+    mousedownForAdjustLine (e) {
+      let startY = e.clientY
+      let startHeight = this.work.height
+
+      const canvasOuterWrapper = document.querySelector('#canvas-outer-wrapper')
+
+      let move = moveEvent => {
+        // !#zh 移动的时候，不需要向后代元素传递事件，只需要单纯的移动就OK
+        moveEvent.stopPropagation()
+        moveEvent.preventDefault()
+
+        let currY = moveEvent.clientY
+        let currentHeight = currY - startY + startHeight
+        this.updateWorkHeight(currentHeight)
+        // 交互效果：滚动条同步滚动至底部
+        canvasOuterWrapper && (canvasOuterWrapper.scrollTop = canvasOuterWrapper.scrollHeight)
+      }
+
+      let up = moveEvent => {
+        document.removeEventListener('mousemove', move, true)
+        document.removeEventListener('mouseup', up, true)
+      }
+      document.addEventListener('mousemove', move, true)
+      document.addEventListener('mouseup', up, true)
     },
     /**
      * #!zh: renderCanvas 渲染中间画布
@@ -154,13 +190,14 @@ export default {
       return (
         <div
           style={{ height: '100%', position: 'relative' }}
-          class="canvas-editor-wrapper"
           onClick={(e) => {
             this.hideContextMenu()
             this.handleClickCanvas(e)
           }}
           onContextmenu={e => {
-            this.bindContextMenu(e)
+            e.preventDefault()
+            e.stopPropagation()
+            // this.bindContextMenu(e)
           }}
         >
           {
@@ -178,7 +215,15 @@ export default {
                 // 添加 class 的原因：与 handleClickCanvasProp 配合,
                 // 当点击编辑画布上的其它区域（clickEvent.target.classList 不包含下面的 className）的时候，设置 editingElement=null
                 class: 'element-on-edit-canvas',
-                props: element.getProps(), // #6 #3
+                props: {
+                  ...element.getProps(), // #6 #3,
+                  editorMode: 'edit'
+                },
+                // nativeOn: {
+                //   contextmenu: e => {
+                //     this.bindContextMenu(e)
+                //   }
+                // },
                 on: {
                   // 高亮当前点击的元素
                   // click: () => this.setEditingElement(element)
@@ -202,15 +247,20 @@ export default {
                     this.setEditingElement(element)
                   }}
                   // TODO 矩形四周的点叫什么？暂时叫 Point 吧
-                  handlePointMoveProp={pos => {
-                    this.setElementPosition(pos)
-                  }}
+                  handlePointMoveProp={this.handlePointMove}
                   handleElementMoveProp={this.handleElementMove}
                   handleElementMouseUpProp={() => {
+                    this.clearHLine()
+                    this.clearVLine()
                     this.recordElementRect()
                   }}
                   handlePointMouseUpProp={() => {
+                    this.clearHLine()
+                    this.clearVLine()
                     this.recordElementRect()
+                  }}
+                  nativeOnContextmenu={e => {
+                    this.bindContextMenu(e)
                   }}
                 >
                   {h(element.name, data)}
@@ -230,22 +280,35 @@ export default {
           }
           {
             this.contextmenuPos.length
-              ? <a-menu
+              ? <ContextMenu
+                position={this.contextmenuPos}
                 onSelect={({ item, key, selectedKeys }) => {
                   this.elementManager({ type: key })
+                  this.hideContextMenu()
                 }}
-                style={{
-                  left: this.contextmenuPos[0] + 'px',
-                  top: this.contextmenuPos[1] + 'px',
-                  userSelect: 'none',
-                  position: 'absolute',
-                  zIndex: 999
-                }}
-              >
-                { contextmenuOptions.map(option => <a-menu-item key={option.value} data-command={option.value}>{this.$t(option.i18nLabel)}</a-menu-item>) }
-              </a-menu>
-              : null
+                onHideMenu={this.hideContextMenu}
+              /> : null
           }
+          <div style={{
+            position: 'absolute',
+            top: `${this.work.height}px`,
+            width: '100%'
+          }}>
+            <div class="adjust-line-wrapper adjust-line-wrapper-h">
+              <div class="adjust-line adjust-line-h"></div>
+              <div class="adjust-button" onMousedown={this.mousedownForAdjustLine}><div class="indicator"></div></div>
+              <div class="adjust-tip">
+                <span>320 x</span>
+                <a-input-number
+                  size="small"
+                  style="margin: 0 4px; width:60px;"
+                  value={this.work.height}
+                  onChange={height => { this.updateWork({ height }) }}
+                />
+                <span>px</span>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }

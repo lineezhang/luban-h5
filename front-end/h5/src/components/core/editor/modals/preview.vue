@@ -22,7 +22,7 @@ export default {
     //   work: state => state.work
     // }),
     releaseUrl () {
-      return `/works/preview/${this.work.id}`
+      return `${window.location.origin}/works/preview/${this.work.id}`
     }
   },
   data () {
@@ -65,8 +65,15 @@ export default {
       let iframeWin = document.getElementById('iframe-for-preview').contentWindow
       iframeWin.postMessage(message, window.location.origin)
     },
-    openNewTab () {
-      window.open(this.releaseUrl)
+    openNewTab (urlType) {
+      switch (urlType) {
+        case 'previewDebug':
+          window.open(this.releaseUrl)
+          break
+        case 'buildEngineDocs':
+          window.open('https://ly525.github.io/luban-h5/zh/getting-started/quick-start.html#_2-%E6%9E%84%E5%BB%BA%E9%A2%84%E8%A7%88%E6%89%80%E9%9C%80%E7%9A%84%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E')
+          break
+      }
     }
   },
   render (h) {
@@ -94,12 +101,16 @@ export default {
                     <a-icon type="down" class="page-controller"  onClick={() => { this.postMessage2Iframe('next') }}/>
                     */}
                   </div>
-                  <iframe
-                    id="iframe-for-preview"
-                    src={this.releaseUrl}
-                    frameborder="0"
-                    style="height: 100%;width: 100%;"
-                  ></iframe>
+                  {
+                    // 类似 v-if="this.visible" 的目的：关闭预览弹框之后，销毁 iframe，避免继续播放音乐、视频
+                    // similar with v-if="this.visible": destory the iframe after close the preview dialog to avoid playing the music and video
+                    this.visible && <iframe
+                      id="iframe-for-preview"
+                      src={this.releaseUrl}
+                      frameborder="0"
+                      style="height: 100%;width: 100%;"
+                    ></iframe>
+                  }
                   {/** <engine :work="editingWork" :map-config="{}" /> */}
                 </div>
               </div>
@@ -126,12 +137,11 @@ export default {
                   ></a-input>
                 </div>
                 <div class="qrcode my-4">
-                  <div class="label">手机扫码分享给好友</div>
+                  <div class="label">
+                    <span>手机扫码分享给好友</span>
+                  </div>
                   <div class="code">
                     <canvas style="float: left" id="qrcode-container"></canvas>
-                    <div>
-                      <a-button type="dashed" onClick={() => this.openNewTab()}>打开预览 URL </a-button>
-                    </div>
                     {/**
                     <a-radio-group class="radios" value={this.qrcodeSize} onChange={e => { this.qrcodeSize = e.target.value }}>
                       <a-radio label={500} value={500}>500x500</a-radio>
@@ -141,14 +151,16 @@ export default {
                     */}
                   </div>
                 </div>
+                <div style="background: #fafafa;">
+                  <a-button type="link" icon="link" onClick={() => this.openNewTab('previewDebug')}>打开预览 URL(For Debug) </a-button>
+                  <a-button type="link" icon="link" onClick={() => this.openNewTab('buildEngineDocs')}>如果本地预览显示空白，点此查看文档</a-button>
+                </div>
               </div>
             </a-col>
           </a-row>
         </div>
       </a-modal>
     )
-  },
-  mounted () {
   }
 }
 </script>
@@ -217,6 +229,10 @@ export default {
     }
     .qrcode {
       margin-top: 20px;
+
+      .label span {
+        margin-right: 10px;
+      }
     }
     .code {
       // !#zh 防止浮动塌陷

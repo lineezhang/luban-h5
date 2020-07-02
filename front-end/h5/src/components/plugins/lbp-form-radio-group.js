@@ -1,34 +1,69 @@
+/*
+ * @Author: ly525
+ * @Date: 2019-11-23 12:35:43
+ * @LastEditors: ly525
+ * @LastEditTime: 2020-05-17 23:17:23
+ * @FilePath: /h5/src/components/plugins/lbp-form-radio-group.js
+ * @Github: https://github.com/ly525/luban-h5
+ * @Description: 表单单选组组件 #!en: radio group component
+ * @Copyright 2018 - 2019 luban-h5. All Rights Reserved
+ */
+
+import PropTypes from '@luban-h5/plugin-common-props'
 import LbpFormRadio from './lbp-form-radio.js'
 
-const defaultItems = [
-  {
-    value: '选项A-value'
-  },
-  {
-    value: '选项B-value'
-  },
-  {
-    value: '选项C-value'
-  }
-]
+function getDefaultItems () {
+  // defaultItems.slice(0)[0] === defaultItems.slice(0)[0] -> true
+  // Object.assign(defaultItems)[0] === Object.assign(defaultItems)[0] -> true
+  // clone = (val) => JSON.parse(JSON.stringify(val))
+  // clone(defaultItems)[0] === clone(defaultItems)[0] -> false
+  const defaultItems = [
+    {
+      value: '选项A'
+    },
+    {
+      value: '选项B'
+    },
+    {
+      value: '选项C'
+    }
+  ]
+
+  return defaultItems
+}
 
 export default {
-  name: 'lbp-form-radio-group',
-  components: {
-    LbpFormRadio
+  extra: {
+    defaultStyle: {
+      width: 120,
+      height: 120
+    }
   },
+  name: 'lbp-form-radio-group',
   props: {
-    aliasName: {
-      type: String,
-      default: '标题演示'
-    },
-    items: {
-      type: Array,
-      default: () => defaultItems
-    },
+    aliasName: PropTypes.string({
+      defaultValue: `标题演示`,
+      label: '填写标题'
+    }),
+    items: PropTypes.textOptions({
+      label: '选项列表',
+      defaultValue: () => getDefaultItems()
+    }),
     type: {
       type: String,
-      default: 'radio'
+      default: 'radio',
+      editor: {
+        type: 'a-radio-group',
+        label: '选择模式',
+        require: true,
+        props: {
+          options: [
+            { label: '单选', value: 'radio' },
+            { label: '多选', value: 'checkbox' }
+          ],
+          name: 'mode'
+        }
+      }
     }
   },
   data () {
@@ -50,85 +85,6 @@ export default {
   watch: {
     type (type) {
       this.value = type === 'radio' ? '' : []
-    }
-  },
-  editorConfig: {
-    propsConfig: {
-      items: {
-        type: 'lbs-form-radio-items-editor',
-        label: '选项列表',
-        require: true,
-        defaultPropValue: defaultItems
-      },
-      aliasName: {
-        type: 'a-input',
-        label: '填写标题',
-        require: true,
-        defaultPropValue: '标题演示'
-      },
-      type: {
-        type: 'a-radio-group',
-        label: '选择模式',
-        require: true,
-        prop: {
-          options: [
-            { label: '单选', value: 'radio' },
-            { label: '多选', value: 'checkbox' }
-          ],
-          name: 'mode'
-        },
-        defaultPropValue: 'radio'
-      }
-    },
-    components: {
-      'lbs-form-radio-items-editor': {
-        render () {
-          return <div>
-            {
-              this.value_.map((item, index) => (
-                <div>
-                  <a-input value={item.value} onChange={e => { item.value = e.target.value }}></a-input>
-                  <a-button type="dashed" shape="circle" icon="plus" onClick={this.add} />
-                  <a-button type="dashed" shape="circle" icon="minus" onClick={(item, index) => this.minus(item, index)} />
-                </div>
-              ))
-            }
-          </div>
-        },
-        props: {
-          value: {
-            type: Array,
-            default: () => defaultItems
-          }
-        },
-        computed: {
-          value_: {
-            get () {
-              return this.value
-            },
-            set (val) {
-              this.$emit('input', val)
-            }
-          }
-        },
-        methods: {
-          add () {
-            console.log(this.value_.length)
-            this.$emit('change', [
-              ...this.value_,
-              {
-                value: `选项${this.value_.length + 1}-value`,
-                label: `选项${this.value_.length + 1}-label`
-              }
-            ])
-          },
-          minus (item, index) {
-            const items = this.value_.slice(0)
-            items.splice(index, 1)
-            this.$emit('change', items)
-          }
-        }
-      }
     }
   },
   mounted () {
@@ -169,14 +125,15 @@ export default {
         <input type="text" hidden value={this.value_} data-type="lbp-form-input" data-uuid={this.uuid} />
         {
           this.items.map(item => (
-            <lbp-form-radio
+            <LbpFormRadio
               vertical
               value={item.value}
               checked={this.value === item.value}
-              aliasName={this.aliasName}
+              aliasName={this.uuid}
               type={this.type}
               onChange={this.onChange}
-            >{item.value}</lbp-form-radio>
+            >{item.value}
+            </LbpFormRadio>
           ))
         }
       </div>

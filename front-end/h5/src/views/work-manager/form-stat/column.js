@@ -1,23 +1,31 @@
 export const columns = [
   {
+    title: 'Id',
+    // dataIndex: 'id',
+    key: 'id',
+    scopedSlots: { customRender: 'id' }
+  },
+  {
     title: 'Title',
     dataIndex: 'title',
     key: 'title'
   },
+  // {
+  //   title: 'PV',
+  //   dataIndex: 'pv',
+  //   key: 'pv'
+  // },
+  // {
+  //   title: 'Uv',
+  //   dataIndex: 'uv',
+  //   key: 'uv'
+  // },
   {
-    title: 'PV',
-    dataIndex: 'pv',
-    key: 'pv'
-  },
-  {
-    title: 'Uv',
-    dataIndex: 'uv',
-    key: 'uv'
-  },
-  {
-    title: 'Form Count',
+    // i18n for title
+    title: 'Forms',
     key: 'formCount',
-    dataIndex: 'formCount'
+    dataIndex: 'formCount',
+    align: 'center'
   },
   {
     title: 'Action',

@@ -22,7 +22,8 @@ export default {
     useNow: 'Use it Now',
     preview: 'Preview',
     edit: 'Edit',
-    createNewWork: 'Create New'
+    createNewWork: 'Create New',
+    view: 'View Work'
   },
   basicData: {
     viewData: 'View Data'
@@ -63,13 +64,14 @@ export default {
       }
     },
     fixedTool: {
-      undo: 'Undo',
-      redo: 'Redo',
+      undo: 'Undo{hotkey}',
+      redo: 'Redo{hotkey}',
       preview: 'Preview',
       copyCurrentPage: 'CopyCurrentPage',
       importPSD: 'Import PSD',
-      zoomIn: 'Zoom In',
-      zoomOut: 'Zoom Out'
+      zoomIn: 'Zoom In{hotkey}',
+      zoomOut: 'Zoom Out{hotkey}',
+      issues: 'Issues'
     },
     editPanel: {
       tab: {
@@ -93,6 +95,10 @@ export default {
       common: {
         empty: 'Select an element first please!'
       }
+    },
+    tip: {
+      componentUsage: 'Tip: just {0} on component',
+      click: 'click'
     }
   }
 }

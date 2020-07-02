@@ -1,9 +1,14 @@
 # Quick Start
+- if you are familiar with `Node`, `Yarn`(and already installed), please follow the commands to start quickly:
+- if you are not familiar with the tech stack, please read the following detailed tutorial
 
-# commands commonly used for local dev
 ```bash
-npm run dev # dev back-end or docs
-yarn serve # dev front-end
+# back-end
+cd back-end/h5-api && yarn && yarn dev
+
+# front-end
+# open a new terminal and goto the project root path
+cd front-end/h5 && yarn && yarn build:engine && yarn dev
 ```
 
 # Overview
@@ -16,26 +21,35 @@ yarn serve # dev front-end
 ## Build With(current version)
 Vue.js: Front-end framework<br />Strapi.js: Open source Node.js Headless CMS to easily build customisable APIs<br />Sqlite: Database
 
+## Cases you may meet in local development
+
+> suitable for whose who are a little careless, who have only read half of the documents
+
+1. API `403 Forbidden`, the solution: [# _2-Caution] (#_ 2-Caution)
+
+2. The `preview page shows blank` in the dialog, the solution : [2. Rendering engine required for building preview] (# _2-Rendering engine required for building preview)
+
 
 # Setup
-
-1. the API is powered by strapi.js
+> the API is powered by [strapi.js](https://strapi.io/)
 
 ## Setup backend
-
 ### 1. quick start
 ```bash
 # by default, the current path is the root path for luban-h5
 cd back-end/h5-api
+# use yarn (⚠️not npm) install dependencies
+# reference: https://github.com/ly525/luban-h5/issues/92
 yarn install # install dependencies
 
-npm run dev # dev
-# additional notes: run `npm run localdev` if you want to debug it in vscode
+yarn dev # dev
+# additional notes:
+# if you want to debug it in vscode, please run `yarn localdev`
 
-# #!en: default database is sqlite3(db location: h5-api/.tmp/data.db)
+#!en: default database is sqlite3(db location: h5-api/.tmp/data.db)
 
-# 访问 http://locahost:1337/admin
-# visit http://locahost:1337/admin
+# visit http://localhost:1337/admin
+Please read on to config the strapi admin
 ```
 
 ### 2. Something important
@@ -50,34 +64,23 @@ npm run dev # dev
 ##### Used for upload work cover
 ![1567858269172-44561808-5d49-43b5-89c1-f4f876eeec24](https://user-images.githubusercontent.com/12668546/65381948-32154680-dd2e-11e9-95ea-589f808ce095.png)
 
-2. `ctx.render is not a function` <br />solution:`Setup backend/quick start/strap-hook-ejs` 
-
-<br />
-```javascript
-error TypeError: ctx.render is not a function
-  at previewOne (~/luban-h5/back-end/h5-api/api/work/controllers/Work.js:13:16)
-```
-
 
 ## setup front-end
 
 ### 1. quick start
 ```bash
 # by default, the current path is the root path of luban-h5
-cd front-end/h5
-
-yarn # install dependencies
-yarn serve # develop
+cd front-end/h5 && yarn && yarn build:engine && yarn dev
 
 # more commands
 # please refer to project/front-end/h5/package.json
 ```
 
 ### 2. build preview engine
+- just run `cd front-end/h5 && yarn && yarn build:engine`
 
-#### Basic
-[luban-h5/back-end/h5-api/api/work/controllers/Work.js/previewOne](https://github.com/ly525/luban-h5/blob/bd486ce16fc24bfd7030fc51857a579776e12e68/back-end/h5-api/api/work/controllers/Work.js#L12)
-
+#### 2.1 Basic(TLDR)
+[previewOne](https://github.com/ly525/luban-h5/blob/bd486ce16fc24bfd7030fc51857a579776e12e68/back-end/h5-api/api/work/controllers/Work.js#L12), here is the key code:
 
 ```js
 previewOne: async (ctx) => {
@@ -86,13 +89,7 @@ previewOne: async (ctx) => {
 },
 ```
 
-#### How to build preview engine
-1. cd `front-end/h5`, run `yarn engine:build`
+#### 2.2 How to build preview engine(TLDR)
+1. cd `front-end/h5`, run `yarn build:engine`
 2. after build finished, an folder named `engine-assets`  is auto generated at `back-end/h5-api/public`
 3. `preview.vue` is preview modal, the mobile div is an iframe which a wrapper for builded `engine-entry`, learn more about engine here: `luban-h5/front-end/h5/vue.config.js`
-
-
-### 3. explanation for front-end components
-
-1. `lbp-`
-> `lu-ban-plugin: plugins for luban-h5`：location: `front-end/h5/src/components/plugins`

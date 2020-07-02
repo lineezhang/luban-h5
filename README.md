@@ -1,27 +1,60 @@
-[📖中文在线文档](https://ly525.github.io/luban-h5/zh/) | [📖English README](./README.en.md) | [English Document](https://ly525.github.io/luban-h5/en/getting-started/introduction.html)
+[中文文档-推荐(语雀)](https://www.yuque.com/luban-h5/docs) || [📖中文在线文档(github.io)](https://ly525.github.io/luban-h5/zh/) | [📖English Docs](https://ly525.github.io/luban-h5/en/getting-started/introduction.html) | [README(en)](./README.en.md)
 
 <h2 align="center">
  鲁班 H5
 </h2>
 <p align="center">
-基于Vue开发，通过拖拽的形式，生成移动页面
+可视化搭建，拖拽生成移动端页面
 </p>
 <p align="center">
 Mobile Page Builder&Generator with Drag&Drop
 </p>
 
-<p align="left">
-<a href="https://github.com/ly525/luban-h5/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/ly525/luban-h5"></a>
-<a href="https://gitter.im/luban-h5/community"><img alt="Gitter" src="https://img.shields.io/gitter/room/luban-h5/community"></a>
- 
-</p>
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Docs](https://github.com/ly525/luban-h5/workflows/docs/badge.svg)](https://ly525.github.io/luban-h5/)
+[![Release](https://img.shields.io/github/v/release/ly525/luban-h5)](https://github.com/ly525/luban-h5/workflows/docs)
+[![Gitter](https://img.shields.io/gitter/room/luban-h5/community)](https://gitter.im/luban-h5/community)
+[![GitHub issues](https://img.shields.io/github/issues/ly525/luban-h5)](https://github.com/ly525/luban-h5/issues)
+[![GitHub stars](https://img.shields.io/github/stars/ly525/luban-h5.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/ly525/luban-h5/stargazers/)
+[![码云](https://img.shields.io/badge/Gitee--yellow.svg?style=social&logo=data:image/svg+xml;base64,PHN2ZyB0PSIxNTc0ODM3MTM4ODM3IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3NzAiICAgICB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPiAgICA8cGF0aCBkPSJNODkxIDQyOC44SDQ2NS44Yy0yMC40IDAtMzcgMTYuNS0zNyAzN3Y5Mi40YzAgMjAuNCAxNi41IDM3IDM3IDM3aDI1OC45YzIwLjQgMCAzNyAxNi42IDM3IDM3djE4LjRjMCA2MS4zLTQ5LjcgMTEwLjktMTEwLjkgMTEwLjlIMjk5LjRjLTIwLjQgMC0zNy0xNi42LTM3LTM3VjM3My4yYzAtNjEuMyA0OS43LTExMC45IDExMC45LTExMC45aDUxNy42YzIwLjQgMCAzNy0xNi41IDM3LTM3bDAuMS05Mi4zYzAtMjAuNC0xNi41LTM3LTM3LTM3SDM3My4zQzIyMC4yIDk2IDk2IDIyMC4yIDk2IDM3My4zVjg5MWMwIDIwLjQgMTYuNiAzNyAzNyAzN2g1NDUuNEM4MTYuMiA5MjggOTI4IDgxNi4zIDkyOCA2NzguNFY0NjUuOGMwLTIwLjQtMTYuNi0zNy0zNy0zN3oiICAgICAgICAgIGZpbGw9IiNkODFlMDYiIHAtaWQ9IjE3NzEiPjwvcGF0aD48L3N2Zz4=)](https://gitee.com/ly525/luban-h5.git)
+
+## 快速体验
+
+#### 一键脚本
+```bash
+git clone https://github.com/ly525/luban-h5 && cd luban-h5
+# 安装依赖，构建前后端（安装依赖会耗时略长，请耐心等待）
+./luban-h5.sh init
+
+# 启动项目访问 http://localhost:1337 即可
+./luban-h5.sh start
+
+# ./luban-h5.sh stop
+```
+
+- 更多细节，请参照 [鲁班H5-在线文档](https://ly525.github.io/luban-h5/zh/) 的 [`快速开始`](https://ly525.github.io/luban-h5/zh/getting-started/quick-start.html) 章节，进行配置即可
+
+- 如果遇到接口 403 问题，请参照 [`快速开始`](https://ly525.github.io/luban-h5/zh/getting-started/quick-start.html) 章节，搜索关键字：403 即可
+
+
+
 
 ### 🔗Links/相关链接
-1. [中文社区/论坛](https://support.qq.com/product/93432)
-2. [📖中文在线文档](https://ly525.github.io/luban-h5/zh/) 
-3. [📖English README](./README.en.md)
-4. GitHub：https://github.com/ly525/luban-h5
-5. Gitee (国内镜像)：https://gitee.com/ly525/luban-h5
+ | 源码   | 文档   | 教程     | 社区 |
+| ------ | -------- | ------ | ------ |
+| [GitHub](https://github.com/ly525/luban-h5) | [中文文档](https://ly525.github.io/luban-h5/zh/) | [视频-快速开始(哔哩哔哩)](https://space.bilibili.com/121039466/channel/detail?cid=94066)       | [中文社区/论坛](https://support.qq.com/product/93432)
+| [Gitee (国内镜像)](https://gitee.com/ly525/luban-h5)  | [English Docs](https://ly525.github.io/luban-h5/en/getting-started/introduction.html)  |   自定义组件教程(WIP)    | [Gitter](https://gitter.im/luban-h5/community)    |
+|  |  [README(En)](./README.en.md)    | [核心实现原理](https://juejin.im/post/5d6df27a6fb9a06b2d77eef9)  |      |
+
+
+### 🔗生态
+| 后端集成                                                                                           | 官方组件库                                                     | 支撑/辅助组件                                            | 自定义组件                                                             | RoadMap                                                    |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------|----------------------------------------------------|-------------------------------------------------------------------|------------------------------------------------------------|
+| [Strapi.js (官方后端API)](/luban-h5/tree/dev/back-end/h5-api)                                      | [轮播图](https://github.com/luban-h5-components/lbp-slide)   | 图片库                                                | [自定义组件开发脚手架](https://github.com/luban-h5/vue-cli-plugin-lbhc)     | [RoadMap/开发计划](https://github.com/ly525/luban-h5/projects) |
+| [SpringBoot2-JPA](https://github.com/luban-h5/spring-boot-api-for-editor)                      | [普通按钮](https://github.com/luban-h5-components/lbc-button) | [文本对齐](https://github.com/luban-h5/lbs-text-align) | [自定义组件开发教程](https://github.com/luban-h5/vue-cli-plugin-lbhc/wiki) |                                                            |
+| [SpringBoot2-Mybatis-plus](https://github.com/luban-h5/springboot2-mybatis-plus-api-for-luban) |                                          |                                                    | 视频教程(WIP)                                                         |                                                            |
+
+
 
 目录
 - [鲁班H5是什么？](#%E9%B2%81%E7%8F%ADh5%E6%98%AF%E4%BB%80%E4%B9%88)
@@ -38,9 +71,7 @@ Mobile Page Builder&Generator with Drag&Drop
 
 
 ### Demo
-> [在线访问地址](https://api.luban-h5.wxjcart.com)
-
-> [更多作品演示图片，点击查看](https://github.com/ly525/luban-h5/issues/15)
+> [在线访问地址](https://h5.luban-h5.com)
 
 <img src="https://s2.ax1x.com/2019/10/11/u7WzUx.gif" style="margin: 10px;" width="60%" />
 
@@ -53,7 +84,7 @@ Mobile Page Builder&Generator with Drag&Drop
 
 | 钉钉群  | 微信公众号  |  微信 |
 |---|---|---|
-| <img src="https://user-images.githubusercontent.com/12668546/61447488-a379f700-a983-11e9-9956-139352a2585d.png" width="200" />| <img src="https://user-images.githubusercontent.com/12668546/65471913-ab827580-dea3-11e9-919c-870c9605c60f.png" width="200" />  | <img src="https://user-images.githubusercontent.com/12668546/66585418-5cce1e80-ebb9-11e9-91c0-56f658f09e27.png" width="200" /> <br />请备注：鲁班H5交流| 
+| <img src="https://user-images.githubusercontent.com/12668546/61447488-a379f700-a983-11e9-9956-139352a2585d.png" width="100" />| <img src="https://user-images.githubusercontent.com/12668546/65471913-ab827580-dea3-11e9-919c-870c9605c60f.png" width="100" />  | <img src="https://user-images.githubusercontent.com/12668546/66585418-5cce1e80-ebb9-11e9-91c0-56f658f09e27.png" width="100" /> <br />请备注：鲁班H5交流|
 
 ## 更多细节请阅读[在线文档](https://ly525.github.io/luban-h5)
 
@@ -79,6 +110,7 @@ Mobile Page Builder&Generator with Drag&Drop
     - [x] 表单输入框
     - [x] 普通图片
     - [x] 背景图
+    - [x] 背景音乐
     - [x] 视频（Iframe形式）
 
 3. 增强功能
@@ -93,14 +125,18 @@ Mobile Page Builder&Generator with Drag&Drop
     - [x] 表单数据展示
     - [x] 在线预览
     - [x] 二维码预览
-    
-    
-### 更多说明
-#### 前端组件说明
-1. `lbp-` 全称为 `lu-ban-plugin-`, 意思为 `鲁班H5的插件`，位置：`front-end/h5/src/components/plugins`
-
 
 #### 技术栈（当前）
 1. 前端：[Vue.js](https://vuejs.org/v2/guide/)
 2. 后端：[Strapi](https://strapi.io/)
-3. 存储：[Sqlite](https://mongodb.com)
+3. 存储：[Sqlite](https://www.sqlite.org/)
+
+#### 如何贡献
+所有合理的改动、优化、修正，新的组件，或者文档的修正、更新 相关的提交都会被接受
+
+
+#### 捐赠作者
+如果项目对您有用或者对您有启发，不妨通过微信或者支付宝进行小额捐赠，以支持该项目的持续维护和发展
+| 微信捐赠  | 支付宝捐赠
+|---|---|
+| <img src="https://user-images.githubusercontent.com/12668546/81877522-e6165b00-95b7-11ea-9699-b74670a208d7.png" width="140" />| <img src="https://user-images.githubusercontent.com/12668546/81877535-ef9fc300-95b7-11ea-954a-03ae349908cd.png" width="140" />

@@ -2,8 +2,8 @@
 
 <!-- 简体中文 | [English](./README.en.md) -->
 
-目录
-[[toc]]
+<!-- 目录
+[[toc]] -->
 
 <!-- 目录
 - [鲁班H5是什么？](#%E9%B2%81%E7%8F%ADh5%E6%98%AF%E4%BB%80%E4%B9%88)
@@ -19,12 +19,6 @@
 
 ### 鲁班H5是什么？
 鲁班H5是基于Vue2.0开发的，通过拖拽的形式，生成页面的工具，类似[易企秀](http://www.eqxiu.com/)、[百度 H5](https://h5.baidu.com) 等工具
-
-
-### Screenshots
-> [主页](http://api.luban-h5.wxjcart.com)
-
-> [更多作品演示图片，点击查看](https://github.com/ly525/luban-h5/issues/15)
 
 ![image](https://s2.ax1x.com/2019/10/11/u7WzUx.gif)
 

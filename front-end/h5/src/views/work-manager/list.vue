@@ -31,7 +31,7 @@ const ListItemCard = {
       return displayTime
     },
     genQRCodeUrl (work) {
-      const url = `/works/preview/${work.id}`
+      const url = `${window.location.origin}/works/preview/${work.id}`
       QRCode.toDataURL(url, (err, url) => {
         if (err) console.log(err)
         this.qrcodeUrl = url
@@ -84,7 +84,7 @@ const AddNewCard = {
   render (h, { props, parent }) {
     return (
       <a-card hoverable>
-        <div slot="cover" class="flex-center" style="height: 415px;background: #f7f5f557;" onClick={props.handleCreate}>
+        <div slot="cover" class="flex-center" style="height: 405px;background: #f7f5f557;" onClick={props.handleCreate}>
           <a-icon type="plus" />
         </div>
         <template class="ant-card-actions" slot="actions">
@@ -112,13 +112,11 @@ export default {
   },
   methods: {
     ...mapActions('editor', [
-      'fetchWorks'
+      'fetchWorks',
+      'createWork'
     ]),
     deleteWork (item) {
       // TODO delete work from work list
-    },
-    createWork () {
-      this.$router.push({ name: 'editor' })
     }
   },
   render (h) {
@@ -144,9 +142,8 @@ export default {
           }
         </a-row>
         {
-          this.previewVisible &&
           <PreviewDialog
-            work={this.activeWork}
+            work={this.activeWork || {}}
             visible={this.previewVisible}
             handleClose={() => { this.previewVisible = false }}
           />

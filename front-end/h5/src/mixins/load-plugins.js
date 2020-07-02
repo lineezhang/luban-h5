@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import LbpButton from '@luban-h5/lbc-button'
 import LbpButton from '../components/plugins/lbp-button'
 import LbpPicture from '../components/plugins/lbp-picture'
 import LbpVideo from '../components/plugins/lbp-video'
@@ -6,10 +7,48 @@ import LbpText from '../components/plugins/lbp-text'
 import LbpFormInput from '../components/plugins/lbp-form-input'
 import LbpFormButton from '../components/plugins/lbp-form-button'
 import LbpFormRadioGroup from '../components/plugins/lbp-form-radio-group'
+import LbpFormCheckboxGroup from '../components/plugins/lbp-form-checkbox-group'
 import LbpBackground from '../components/plugins/lbp-background'
 import LbpSlide from '../components/plugins/lbp-slide'
+import LbpBgMusic from '../components/plugins/lbp-bg-music'
+import LbpNoticeBar from '../components/plugins/lbp-notice-bar'
+import LbpRate from '../components/plugins/lbp-rate'
+// import LbpTabs from '../components/plugins/lbp-tabs'
 
 export const pluginsList = [
+  {
+    title: '公告',
+    i18nTitle: {
+      'en-US': 'Notice-Bar',
+      'zh-CN': '公告'
+    },
+    icon: 'volume-up',
+    component: LbpNoticeBar,
+    visible: true,
+    name: LbpNoticeBar.name
+  },
+  // {
+  //   title: '标签页',
+  //   i18nTitle: {
+  //     'en-US': 'Tabs',
+  //     'zh-CN': '标签页'
+  //   },
+  //   icon: 'tab',
+  //   component: LbpTabs,
+  //   visible: true,
+  //   name: LbpTabs.name
+  // },
+  {
+    title: '评分',
+    i18nTitle: {
+      'en-US': 'Rate',
+      'zh-CN': '评分'
+    },
+    icon: 'star-o',
+    component: LbpRate,
+    visible: true,
+    name: LbpRate.name
+  },
   {
     title: '图片',
     i18nTitle: {
@@ -78,13 +117,6 @@ export const pluginsList = [
     visible: true,
     name: LbpVideo.name
   },
-  // {
-  //   title: '视频',
-  //   icon: 'play-circle-o',
-  //   component: LbpVideo,
-  //   visible: true,
-  //   name: LbpVideo.name
-  // },
   {
     i18nTitle: {
       'en-US': 'Form Input',
@@ -107,23 +139,16 @@ export const pluginsList = [
     visible: true,
     name: LbpFormButton.name
   },
-  // {
-  //   title: '表单单选',
-  //   icon: 'hand-pointer-o',
-  //   component: LbpFormRadio,
-  //   visible: true,
-  //   name: LbpFormRadio.name
-  // },
   {
     i18nTitle: {
       'en-US': 'Form Checkbox',
       'zh-CN': '表单多选'
     },
-    title: '表单单选',
+    title: '表单多选',
     icon: 'check-square-o',
-    component: LbpFormRadioGroup,
+    component: LbpFormCheckboxGroup,
     visible: true,
-    name: LbpFormRadioGroup.name
+    name: LbpFormCheckboxGroup.name
   },
   {
     i18nTitle: {
@@ -146,6 +171,17 @@ export const pluginsList = [
     component: LbpBackground,
     visible: false,
     name: LbpBackground.name
+  },
+  {
+    i18nTitle: {
+      'en-US': 'BgMusic',
+      'zh-CN': '背景音乐'
+    },
+    title: '背景音乐',
+    icon: 'music',
+    component: LbpBgMusic,
+    visible: true,
+    name: LbpBgMusic.name
   }
 ]
 

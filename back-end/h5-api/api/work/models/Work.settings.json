@@ -7,7 +7,10 @@
   },
   "options": {
     "increments": true,
-    "timestamps": true,
+    "timestamps": [
+      "created_at",
+      "updated_at"
+    ],
     "comment": ""
   },
   "attributes": {
@@ -23,21 +26,23 @@
     "pages": {
       "type": "json"
     },
-    "create_time": {
-      "type": "date"
-    },
-    "update_time": {
-      "type": "date"
-    },
     "is_publish": {
       "type": "boolean"
     },
     "is_template": {
       "type": "boolean"
     },
-    "workforms": {
-      "collection": "workform",
-      "via": "work"
+    "mode": {
+      "type": "enumeration",
+      "enum": [
+        "h5_swipper",
+        "h5_long_page",
+        "h5_form"
+      ]
+    },
+    "height": {
+      "type": "integer",
+      "default": 568
     }
   }
 }

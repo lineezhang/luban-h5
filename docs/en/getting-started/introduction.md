@@ -7,7 +7,7 @@
 > LuBan-H5 is a mobile page builder based on Vue.js, which is similar with [Amolink](www.amolink.com) [eqx](http://www.eqxiu.com)(it's a chinese website, you may need to translate the page). It also supports parsing PSD file to HMTL5 Page
 
 ### Demo
-> [Preview Website](https://api.luban-h5.wxjcart.com)
+> [Preview Website](https://h5.luban-h5.com)
 
 <img src="https://s2.ax1x.com/2019/10/11/u7WzUx.gif" style="margin: 10px;" width="60%" />
 
@@ -53,24 +53,17 @@
 
 ---
 
-### Installs
-> proj: project root path
-please refer to: [`Document/Quick Start`](https://ly525.github.io/luban-h5/en/getting-started/quick-start.html?language=en-us)
-
-
----
-### More Explanation
-#### Front-End Component Explanation
-1. `lbp-`: `lu-ban-plugin-`, means `Luban H5 plugin`, location: `proj/front-end/h5/src/components/plugins`
+### Installation
+please refer to: [`Quick Start`](https://ly525.github.io/luban-h5/en/getting-started/quick-start.html?language=en-us)
 
 
 #### Build With (current)
-  1. Front end: Vue.js
-  2. Back End: Strapi
-  3. Storage: Sqlite
+- Front end: Vue.js
+- Back End: Strapi
+- Storage: Sqlite
 
 
-Read more here [Online English Document](https://ly525.github.io/luban-h5)
+Read more here [English Document](https://ly525.github.io/luban-h5)
 
 ---
 

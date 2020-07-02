@@ -35,7 +35,7 @@ const ListItemCard = {
       return displayTime
     },
     genQRCodeUrl (work) {
-      const url = `/works/preview/${work.id}`
+      const url = `${window.location.origin}/works/preview/${work.id}`
       QRCode.toDataURL(url, (err, url) => {
         if (err) console.log(err)
         this.qrcodeUrl = url
@@ -104,10 +104,6 @@ export default {
     ]),
     deleteWork (item) {
       // TODO delete work from work list
-    },
-    createWork () {
-      this.$router.push({ name: 'editor' })
-      // window.open('#/editor', '_blank')
     }
   },
   render (h) {
@@ -138,9 +134,8 @@ export default {
           }
         </a-row>
         {
-          this.previewVisible &&
           <PreviewDialog
-            work={this.activeWork}
+            work={this.activeWork || {}}
             visible={this.previewVisible}
             handleClose={() => { this.previewVisible = false }}
           />
@@ -172,7 +167,7 @@ export default {
                         window.open(routeData.href, '_blank')
                       }}
                       style={{ marginLeft: '12px' }}
-                    >立即使用</a-button>
+                    >立即查看</a-button>
                   </div>
                   : <a-spin tip="复制中" />
               }

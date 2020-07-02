@@ -1,7 +1,18 @@
+/*
+ * @Author: ly525
+ * @Date: 2019-12-14 22:43:55
+ * @LastEditors: ly525
+ * @LastEditTime : 2020-01-15 08:35:17
+ * @FilePath: /luban-h5/front-end/h5/vue.config.js
+ * @Github: https://github.com/ly525/luban-h5
+ * @Description: Do not edit
+ * @Copyright 2018 - 2019 luban-h5. All Rights Reserved
+ */
 const path = require('path')
-const isProd = process.env.NODE_ENV === 'production'
+// const isProd = process.env.NODE_ENV === 'production'
 const target = 'http://localhost:1337'
 const engineOutputDir = path.join(__dirname, '../../back-end/h5-api/public/engine-assets')
+const editorBuildOutputDir = path.join(__dirname, '../../back-end/h5-api/build-editor')
 
 let page
 switch (process.env.PAGE) {
@@ -18,8 +29,9 @@ switch (process.env.PAGE) {
       template: 'public/index.html',
       filename: 'index.html',
       title: 'Index Page',
-      outputDir: 'dist',
-      publicPath: isProd ? '/main/' : '/'
+      // outputDir: 'dist',
+      outputDir: editorBuildOutputDir
+      // publicPath: isProd ? '/main/' : '/'
     }
 }
 
@@ -58,10 +70,13 @@ module.exports = {
     },
     extract: false
   },
-  pluginOptions: {
-    'cube-ui': {
-      postCompile: true,
-      theme: true
+  pwa: {
+    iconPaths: {
+      favicon32: 'img/icons/favicon.ico',
+      favicon16: 'img/icons/favicon.ico',
+      appleTouchIcon: 'img/icons/favicon.ico',
+      maskIcon: 'img/icons/favicon.ico',
+      msTileImage: 'img/icons/favicon.ico'
     }
   }
 }

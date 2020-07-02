@@ -1,5 +1,16 @@
+/*
+ * @Author: ly525
+ * @Date: 2019-12-04 19:55:24
+ * @LastEditors  : ly525
+ * @LastEditTime : 2020-01-01 18:42:41
+ * @FilePath: /luban-h5/back-end/h5-api/api/work/controllers/Work.js
+ * @Github: https://github.com/ly525/luban-h5
+ * @Description:
+ * @Copyright 2018 - 2019 luban-h5. All Rights Reserved
+ */
 'use strict';
 const request = require('request');
+const _ = require('lodash');
 
 /**
  * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/guides/controllers.html#core-controllers)
@@ -15,7 +26,7 @@ module.exports = {
   },
   submitForm: async (ctx) => {
     const work = await strapi.services.work.findOne(ctx.params);
-    const formData = ctx.request.body.fields;
+    const formData = ctx.request.body;
     // eslint-disable-next-line no-unused-vars
     const workform = await strapi.services.workform.create({ form: formData, work });
 
@@ -39,31 +50,44 @@ module.exports = {
       return uuidMap2Name;
     }
 
-    let work = await strapi.services.work.findOne(ctx.params);
-    work = work.toJSON();
+    const work = await strapi.services.work.findOne(ctx.params);
 
     // learn the query from: https://github.com/strapi/foodadvisor/blob/master/api/api/restaurant/controllers/Restaurant.js#L40
-    // eslint-disable-next-line no-undef
-    let formDetails = await Workform.query(qb => {
-      qb.where('work', '=', work.id);
-    }).fetchAll();
-    formDetails = formDetails.toJSON();
+    let formRecords = await strapi.services.workform.find({ work: work.id });
 
     const uuidMap2Name = getUuidMap2Name(work);
     // eslint-disable-next-line require-atomic-updates
-    return ctx.body = { uuidMap2Name, formDetails };
+    return ctx.body = { uuidMap2Name, formRecords };
+  },
+  queryWorksWithForms: async (ctx) => {
+    let formRecords = await strapi.query('workform').model.fetchAll({
+      withRelated: [
+        {'work': qb => qb.column('id') }
+      ],
+      columns: ['id', 'work']
+    });
+    formRecords = formRecords.toJSON();
+    const groupedFormRecords = _.groupBy(formRecords, 'work.id');
+
+    let workRecords = await strapi.query('work').model.fetchAll({
+      columns: ['id', 'title']
+    });
+    workRecords = workRecords.toJSON().map(work => ({
+      ...work,
+      form_count: groupedFormRecords[work.id] && groupedFormRecords[work.id].length
+    })).filter(work => work.form_count);
+
+    return ctx.body = workRecords;
   },
   setAsTemplate: async (ctx) => {
-    let work = await strapi.services.work.findOne(ctx.params);
-    work = work.toJSON();
+    const work = await strapi.services.work.findOne(ctx.params);
 
     // eslint-disable-next-line no-unused-vars
     const templateWork = await strapi.services.work.create();
     return strapi.services.work.update({id: templateWork.id}, { pages: work.pages, is_template: true, cover_image_url: work.cover_image_url });
   },
   useTemplate: async (ctx) => {
-    let templateWork = await strapi.services.work.findOne(ctx.params);
-    templateWork = templateWork.toJSON();
+    const templateWork = await strapi.services.work.findOne(ctx.params);
 
     // eslint-disable-next-line no-unused-vars
     const work = await strapi.services.work.create();

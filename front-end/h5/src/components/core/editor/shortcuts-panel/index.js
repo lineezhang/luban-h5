@@ -1,4 +1,5 @@
 import ShortcutButton from './shortcut-button'
+import LoadNpmPlugins from './load-npm-plugins.vue'
 import langMixin from '@/mixins/i18n'
 export default {
   mixins: [langMixin],
@@ -10,8 +11,15 @@ export default {
     },
     handleClickShortcut: {
       type: Function
+    },
+    handleDragStart: {
+      type: Function,
+      default: (e) => {}
     }
   },
+  data: () => ({
+    npmPackages: []
+  }),
   methods: {
     onClickShortcut (item) {
       if (this.handleClickShortcut) {
@@ -89,10 +97,11 @@ export default {
     return (
       <a-row gutter={20}>
         {
-          this.pluginsList.filter(plugin => plugin.visible).map(plugin => (
+          [].concat(this.pluginsList, this.npmPackages).filter(plugin => plugin.visible).map(plugin => (
             <a-col span={12} style={{ marginTop: '10px' }}>
               <ShortcutButton
                 clickFn={this.onClickShortcut.bind(this, plugin)}
+                mousedownFn={this.handleDragStart.bind(this, plugin)}
                 // title={plugin.title}
                 title={plugin.i18nTitle[this.currentLang] || plugin.title}
                 faIcon={plugin.icon}
@@ -101,6 +110,9 @@ export default {
             </a-col>
           ))
         }
+        <LoadNpmPlugins onLoadComplete={npmPackages => {
+          this.npmPackages = npmPackages
+        }} />
       </a-row>
     )
   }

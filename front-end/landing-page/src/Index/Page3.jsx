@@ -10,7 +10,7 @@ export default function Page3() {
       <QueueAnim
         type="bottom"
         className="content-wrapper home-hover"
-        onClick={() => { window.location.href = '/intro/price '; }}
+        onClick={() => {  }}
       >
         <div key="image" className="image">{d.svg}</div>
         <h3 key="h3">{d.title}</h3>

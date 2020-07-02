@@ -85,6 +85,7 @@ export default {
     renderAvaiableAnimations () {
       return (
         <a-tabs
+          class="avaiable-animations-tabs"
           defaultActiveKey={firstLevelAnimationOptions[0].label}
           onChange={tab => {}}
           style="width:100%;"
@@ -141,7 +142,7 @@ export default {
               />
             </a-form-item>
           </a-form-item>
-          <a-form-item label={this.$t('editor.editPanel.animation.type')} labelCol={{ span: 5 }} wrapperCol={{ span: 16, offset: 2 }} style="margin-bottom:0;">
+          <a-form-item label={this.$t('editor.editPanel.animation.delay')} labelCol={{ span: 5 }} wrapperCol={{ span: 16, offset: 2 }} style="margin-bottom:0;">
             <a-form-item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
               <a-slider
                 defaultValue={2}

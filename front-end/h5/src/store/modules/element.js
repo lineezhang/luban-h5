@@ -1,13 +1,11 @@
 import Element from '../../components/core/models/element'
-import { getEditorConfigForEditingElement, swapZindex } from '../../utils/element'
+import { swapZindex, getVM } from '../../utils/element'
 
 // actions
 export const actions = {
   setEditingElement ({ commit }, payload) {
     commit('setEditingElement', payload)
-
-    const vm = (payload && payload.name) ? getEditorConfigForEditingElement(payload.name) : null
-    commit('setEditingElementEditorConfig', vm)
+    payload && window.getEditorApp.$emit('setEditingElement', payload)
   },
   setElementPosition ({ commit }, payload) {
     commit('setElementCommonStyle', payload)
@@ -28,9 +26,6 @@ export const mutations = {
   setEditingElement (state, payload) {
     state.editingElement = payload
   },
-  setEditingElementEditorConfig (state, payload) {
-    state.editingElementEditorConfig = payload
-  },
   setElementCommonStyle (state, payload) {
     state.editingElement.commonStyle = {
       ...state.editingElement.commonStyle,
@@ -44,24 +39,24 @@ export const mutations = {
 
     switch (type) {
       case 'add':
-        value = {
-          ...value,
-          zindex: len + 1
-        }
-        const element = new Element(value)
+        const vm = getVM(value.name)
+        vm.$options.shortcutProps = value.shortcutProps
+        const element = new Element(vm.$options)
         elements.push(element)
         break
       case 'copy':
-        elements.push(state.editingElement.clone())
+        elements.push(state.editingElement.clone({ zindex: len + 1 }))
         break
       case 'delete':
         {
           const index = elements.findIndex(e => e.uuid === editingElement.uuid)
           if (index !== -1) {
-            let newElements = elements.slice()
-            newElements.splice(index, 1)
-            state.editingPage.elements = newElements
+            // let newElements = elements.slice()
+            // newElements.splice(index, 1)
+            // state.editingPage.elements = newElements
+            state.editingPage.elements.splice(index, 1)
           }
+          state.editingElement = null
         }
         break
       case 'move2Top':
